@@ -9,9 +9,8 @@ This project reflects a complete journey from development → debugging → depl
 
 # 🌐 Live Demo
 
-* 🔗 Frontend (Netlify): *[Add your link]*
-* 🔗 Backend (Render): *[Add your API URL]*
-
+* 🔗 Frontend (Netlify): 
+* 🔗 Backend (Render): 
 ---
 
 # 🧠 Tech Stack
@@ -191,11 +190,8 @@ Create `netlify.toml` in root:
 ---
 
 # 👨‍💻 Team
-
-**Tomhackers** 💻🔥
-
-* Ankit Singh Tomar
-* Team Members *(Add names)*
+Tomhackers
+Ankit Singh Tomar
 
 ---
 
