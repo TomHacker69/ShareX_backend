@@ -1,40 +1,28 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/User");
-const bcrypt = require("bcryptjs");
+const Request = require("../models/Request");
 
-// ✅ Test route
-router.get("/", (req, res) => {
-  res.send("Auth route working");
-});
-
-// Register
-router.post("/register", async (req, res) => {
-  const { name, email, password, collegeId } = req.body;
-
-  if (!email.endsWith("@kiet.edu")) {
-    return res.status(400).json({ msg: "Use college email" });
+// Create request
+router.post("/borrow", async (req, res) => {
+  try {
+    const request = new Request(req.body);
+    await request.save();
+    res.json(request);
+  } catch (error) {
+    console.error("Borrow request error:", error);
+    res.status(500).json({ msg: "Failed to create request" });
   }
-
-  const hashed = await bcrypt.hash(password, 10);
-
-  const user = new User({ name, email, password: hashed, collegeId });
-  await user.save();
-
-  res.json({ msg: "User Registered" });
 });
 
-// Login
-router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-
-  const user = await User.findOne({ email });
-  if (!user) return res.status(400).json({ msg: "User not found" });
-
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) return res.status(400).json({ msg: "Wrong password" });
-
-  res.json({ msg: "Login success", user });
+// Get requests for user
+router.get("/my", async (req, res) => {
+  try {
+    const requests = await Request.find({ borrowerId: req.query.userId });
+    res.json(requests);
+  } catch (error) {
+    console.error("Fetch request error:", error);
+    res.status(500).json({ msg: "Failed to fetch requests" });
+  }
 });
 
 module.exports = router;
